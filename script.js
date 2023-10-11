@@ -1,7 +1,6 @@
 // Create Question class
-
-class Question {
-    constructor(prompt, answer, option0, option1, option2, option3) {
+var Question = /** @class */ (function () {
+    function Question(prompt, answer, option0, option1, option2, option3) {
         this.prompt = prompt;
         this.answer = answer;
         this.option0 = option0;
@@ -9,152 +8,133 @@ class Question {
         this.option2 = option2;
         this.option3 = option3;
     }
-}
-
+    return Question;
+}());
 // Set global variables
-
-let questionsList = [];
-let score = 0;
-let currentIndex = 0;
-let completionStatus = false;
-
+var questionsList = [];
+var score = 0;
+var currentIndex = 0;
+var completionStatus = false;
 // Create question objects
-
 /* Harper, H. (2023). 101 BEST Trivia Questions in Ranking Order [2023 Edition]. QuizBreaker. https://www.quizbreaker.com/trivia-questions#general-trivia-questions */
-
-const q1 = new Question("What is 1 + 2?", "3", "5", "4", "3", "8");
+var q1 = new Question("What is 1 + 2?", "3", "5", "4", "3", "8");
 Object.freeze(q1);
-
-const q2 = new Question("What does a cow drink?", "Milk", "Water", "Milk", "Orange Juice", "Soda");
+var q2 = new Question("What does a cow drink?", "Milk", "Water", "Milk", "Orange Juice", "Soda");
 Object.freeze(q2);
-
-const q3 = new Question("Which continent is also an island?", "Australia", "North America", "South America", "Africa", "Australia");
+var q3 = new Question("Which continent is also an island?", "Australia", "North America", "South America", "Africa", "Australia");
 Object.freeze(q3);
-
-const q4 = new Question("What geometric shape is used for stop signs?", "Octagon", "Octagon", "Square", "Triangle", "Circle");
+var q4 = new Question("What geometric shape is used for stop signs?", "Octagon", "Octagon", "Square", "Triangle", "Circle");
 Object.freeze(q4);
-
-const q5 = new Question(`What is "cynophobia"?`, "Fear of dogs", "Fear of dogs", "Fear of cats", "Fear of negativity", "Fear of the sky");
+var q5 = new Question("What is \"cynophobia\"?", "Fear of dogs", "Fear of dogs", "Fear of cats", "Fear of negativity", "Fear of the sky");
 Object.freeze(q5);
-
-const q6 = new Question("How many languages are written from right to left?", "12", "8", "21", "12", "13");
+var q6 = new Question("How many languages are written from right to left?", "12", "8", "21", "12", "13");
 Object.freeze(q6);
-
-const q7 = new Question("Which animal can be seen on the Porsche logo?", "Horse", "Lion", "Horse", "Jaguar", "Eagle");
+var q7 = new Question("Which animal can be seen on the Porsche logo?", "Horse", "Lion", "Horse", "Jaguar", "Eagle");
 Object.freeze(q7);
-
-const q8 = new Question("What is the name of the World's largest ocean?", "Pacific", "Indian", "Atlantic", "Arctic", "Pacific");
+var q8 = new Question("What is the name of the World's largest ocean?", "Pacific", "Indian", "Atlantic", "Arctic", "Pacific");
 Object.freeze(q8);
-
-const q9 = new Question("Who was the first woman pilot to fly solo across the Atlantic?", "Amelia Earhart", "Sunny Monroe", "Amelia Earhart", "Marie Curie", "Jane Austen");
+var q9 = new Question("Who was the first woman pilot to fly solo across the Atlantic?", "Amelia Earhart", "Sunny Monroe", "Amelia Earhart", "Marie Curie", "Jane Austen");
 Object.freeze(q9);
-
-const q10 = new Question("How long is an Olympic swimming pool (in meters)?", "50 meters", "50 meters", "40 meters", "60 meters", "80 meters");
+var q10 = new Question("How long is an Olympic swimming pool (in meters)?", "50 meters", "50 meters", "40 meters", "60 meters", "80 meters");
 Object.freeze(q10);
-
 questionsList.push(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10);
-
-
 // Put current questions and answers on screen and implements ability to select an answer and proceed
-
-function renderOptions (questionVariable) {
-
+function renderOptions(questionVariable) {
     // Set local variables, store question's answer value and create nodeList for both labels and inputs
-
-    let prompts = document.querySelectorAll('.answer-label');
-    let answers = document.querySelectorAll('.answer-choice');
-    let solutionVar = questionVariable.answer;
-
+    var prompts = document.querySelectorAll('.answer-label');
+    var answers = document.querySelectorAll('.answer-choice');
+    var solutionVar = questionVariable.answer;
     // Clear labels of event listeners
-
-    for (let i = 0; i < prompts.length; i++) {
-        let newPrompt = prompts[i].cloneNode(true);
+    for (var i = 0; i < prompts.length; i++) {
+        var newPrompt = prompts[i].cloneNode(true);
         prompts[i].parentNode.replaceChild(newPrompt, prompts[i]);
-    };
-
+    }
+    ;
     prompts = document.querySelectorAll('.answer-label');
-
     // Display question and score text, and reset label colors
-    
-    document.getElementById('score-tag').textContent='Your score is: '+score;
-
+    document.getElementById('score-tag').textContent = 'Your score is: ' + score;
     document.getElementById("question-text").innerHTML = questionVariable.prompt;
-
-    for (let i = 0; i < prompts.length; i++) {
-        prompts[i].style.backgroundColor = '#00beff';
-    };
-
-    // Populate labels' text and input values
-
-    for (let i = 0; i < prompts.length; i++) {
-        Object.entries(questionVariable).forEach(([propName, propValue]) => {
-            if (propName.includes(i)) {
+    for (var i = 0; i < prompts.length; i++) {
+        prompts[i].setAttribute('style', 'background-color:#00beff');
+    }
+    ;
+    var _loop_1 = function (i) {
+        Object.entries(questionVariable).forEach(function (_a) {
+            var propName = _a[0], propValue = _a[1];
+            if (propName.includes(i.toString())) {
                 if (prompts[i].childNodes.length > 1) {
                     prompts[i].lastChild.remove();
                     insertAfter(document.createTextNode(propValue), prompts[i].lastChild);
                     answers[i].setAttribute("value", propValue);
-                } else {
+                }
+                else {
                     insertAfter(document.createTextNode(propValue), prompts[i].lastChild);
                     answers[i].setAttribute("value", propValue);
-                };
-            };
+                }
+                ;
+            }
+            ;
         });
     };
-
+    // Populate labels' text and input values
+    for (var i = 0; i < prompts.length; i++) {
+        _loop_1(i);
+    }
+    ;
     // Clear 'checked' attribute for inputs
-
-    for(let i = 0; i < answers.length; i++) {
-        answers[i].setAttribute('checked', false);
-    };
-
-    // Create click events on labels for selecting answer
-
-    for (let i = 0; i < prompts.length; i++) {
-        prompts[i].addEventListener('click', function(e) {
+    for (var i = 0; i < answers.length; i++) {
+        answers[i].setAttribute('checked', 'false');
+    }
+    ;
+    var _loop_2 = function (i) {
+        prompts[i].addEventListener('click', function (e) {
             e.stopPropagation();
             e.preventDefault();
             e.stopImmediatePropagation();
-            let confirmation = confirm("Are you sure?");
+            var confirmation = confirm("Are you sure?");
             if (confirmation) {
                 if (answers[i].value == solutionVar) {
                     alert("Good job!");
                     score++;
                     currentIndex++;
                     completionStatus = true;
-                    setTimeout(() => {
+                    setTimeout(function () {
                         continueQuiz();
                     }, 800);
-                    prompts[i].style.backgroundColor = '#00ff00';
-                } else if (answers[i].value !== solutionVar) {
+                    prompts[i].setAttribute('style', 'background-color: #00ff00');
+                }
+                else if (answers[i].value !== solutionVar) {
                     alert("Sorry, no cigar!");
                     currentIndex++;
                     completionStatus = true;
-                    setTimeout(() => {
+                    setTimeout(function () {
                         continueQuiz();
                     }, 800);
-                    prompts[i].style.backgroundColor = '#cc0000';
-                };
-            };
+                    prompts[i].setAttribute('style', 'background-color: #cc0000');
+                }
+                ;
+            }
+            ;
         });
     };
-};
-
+    // Create click events on labels for selecting answer
+    for (var i = 0; i < prompts.length; i++) {
+        _loop_2(i);
+    }
+    ;
+}
+;
 // Functionality for start screen
-
 function startGame() {
-
     // Hide game content
-
-    let gameContent = document.getElementById('game-box').children;
-
-    for(let i = 0; i < gameContent.length; i++) {
-        gameContent[i].style.visibility = 'hidden';
-    };
-    
+    var gameContent = document.getElementById('game-box').children;
+    for (var i = 0; i < gameContent.length; i++) {
+        gameContent[i].setAttribute('style', 'visibility: hidden');
+    }
+    ;
     // Create start button
-
-    const startButtonForm = document.createElement('form');
-    const startButton = document.createElement('input');
+    var startButtonForm = document.createElement('form');
+    var startButton = document.createElement('input');
     startButton.setAttribute('id', 'start-button');
     startButton.setAttribute('type', 'button');
     startButton.setAttribute('value', 'Start Game');
@@ -167,18 +147,14 @@ function startGame() {
     startButton.style.border = '4px solid #d30fa2';
     startButton.style.borderRadius = '20px';
     startButton.style.padding = '15px';
-    
     // Give start button hover color change
-
-    startButton.addEventListener('mouseover', () => {
+    startButton.addEventListener('mouseover', function () {
         startButton.style.backgroundColor = '#24146d';
-        startButton.addEventListener('mouseout', () => {
+        startButton.addEventListener('mouseout', function () {
             startButton.style.backgroundColor = '#00beff';
         });
     });
-
     // Position start button div
-
     startButtonForm.style.position = 'absolute';
     startButtonForm.style.display = 'inline-block';
     startButtonForm.style.textAlign = 'center';
@@ -188,38 +164,32 @@ function startGame() {
     startButtonForm.style.right = '250px';
     startButtonForm.style.margin = 'auto';
     startButtonForm.style.width = 'auto';
-
     startButtonForm.appendChild(startButton);
-
     document.getElementById('game-box').appendChild(startButtonForm);
-
     // Make start button clickable
-
-    startButton.addEventListener('click', () => {
-        for(let i = 0; i < gameContent.length; i++) {
-            gameContent[i].style.visibility = null;
+    startButton.addEventListener('click', function () {
+        for (var i = 0; i < gameContent.length; i++) {
+            gameContent[i].setAttribute('style', 'visibility: null');
         }
         startButtonForm.remove();
         renderOptions(questionsList[0]);
     });
-};
-
+}
+;
 // Renders final results
-
 function showResults() {
-
-    let gameContent = document.getElementById('game-box').children;
-
-    for(let i = 0; i < gameContent.length; i++) {
-        if(gameContent[i].id == 'score-tag') {
+    var gameContent = document.getElementById('game-box').children;
+    for (var i = 0; i < gameContent.length; i++) {
+        if (gameContent[i].id == 'score-tag') {
             continue;
-        } else {
+        }
+        else {
             gameContent[i].remove();
-        };
-    };
-
-    let scoreTag = document.getElementById('score-tag');
-
+        }
+        ;
+    }
+    ;
+    var scoreTag = document.getElementById('score-tag');
     scoreTag.style.position = 'absolute';
     scoreTag.style.display = 'inline-block';
     scoreTag.style.textAlign = 'center';
@@ -229,30 +199,27 @@ function showResults() {
     scoreTag.style.left = '250px';
     scoreTag.style.right = '250px';
     scoreTag.style.opacity = '1.0';
-    scoreTag.style.padding = null;
+    scoreTag.style.padding = 'null';
     scoreTag.style.fontSize = '3em';
     scoreTag.textContent += ' Thanks for playing!';
-};
-
+}
+;
 // Function to automatically continue the quiz or show results at the end
-
 function continueQuiz() {
     try {
         if (completionStatus) {
-        renderOptions(questionsList[currentIndex]);
+            renderOptions(questionsList[currentIndex]);
         }
     }
-    catch(err) {
+    catch (err) {
         showResults();
-    };
-};
-
-/* JavaScript insertAfter. javascripttutorial.net. https://www.javascripttutorial.net/javascript-dom/javascript-insertafter/ */ 
-
+    }
+    ;
+}
+;
+/* JavaScript insertAfter. javascripttutorial.net. https://www.javascripttutorial.net/javascript-dom/javascript-insertafter/ */
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
-};
-
-
+}
+;
 startGame();
-

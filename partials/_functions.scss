@@ -1,0 +1,8 @@
+@function em($px) {
+    @return #{$px / 16}em;
+  }
+  
+@function lighten-color($color, $percentage) {
+    @return lighten($color, $percentage);
+  }
+  
